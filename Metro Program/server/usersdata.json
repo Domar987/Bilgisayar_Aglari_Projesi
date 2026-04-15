@@ -1,1 +1,12 @@
-[{"isim": "aasd", "sifre": "1234", "bakiye": 100}]
+[
+    {
+        "isim": "babf",
+        "sifre": "3456",
+        "bakiye": 1000
+    },
+    {
+        "isim": "aasd",
+        "sifre": "1234",
+        "bakiye": 700
+    }
+]

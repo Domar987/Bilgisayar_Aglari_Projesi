@@ -5,4 +5,5 @@ def connectToServer(msg:str):
     s.connect(('localhost',8080))
     s.sendall(msg.encode())
     data=s.recv(1024)
-    print(data)
+    print(data.decode())
+    s.close()
