@@ -1,5 +1,4 @@
 import client
-import os
 
 class Yolcu():
     def __init__(self,isim:str,sifre:str):
@@ -11,6 +10,8 @@ class Yolcu():
         client.connectToServer(f"{self.isim}-{self.sifre}-BS")
     def bakiyeYukle(self,miktar):
         client.connectToServer(f"{self.isim}-{self.sifre}-BY-{miktar}")
+    def menuIste(self):
+        client.connectToServer(f"{self.isim}-{self.sifre}-M")
 
 yolcu = Yolcu("aasd","1234")
 yolcu.bakiyeSorgu()
