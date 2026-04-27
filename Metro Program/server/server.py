@@ -47,15 +47,25 @@ def readMsg(sock,msg:str):
                     json.dump(tdatabase,fwrite,indent=4)
                     sock.sendall(f"{msgicerik[2]}, {i["isim"]} treninin yeni hızı olarak kaydedildi".encode())
                     fwrite.close()
+        elif msgicerik[1][1]=='I':
+            print("Konum isteği")
+            for i in tdatabase:
+                if i["isim"] == msgicerik[0]:
+                    hiz = i["hiz"]
+                    durak = i["durak"]
         pass
 
-userspath = "usersdata.json"
+userspath = "kullanicilar.json"
 ufread = open(userspath,"r")
 udatabase = json.load(ufread)
 
-tpath = "trainsdata.json"
+tpath = "trenler.json"
 tfread = open(tpath,"r")
 tdatabase = json.load(tfread)
+
+ipath = "istasyonlar.json"
+ifread = open(ipath,"r")
+idatabase = json.load(ifread)
 
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.bind(('127.0.0.1',8080))
