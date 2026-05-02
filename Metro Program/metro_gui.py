@@ -164,12 +164,11 @@ class LoginEkrani(tk.Toplevel):
         cv.create_text(230, 540, text="Kiz Kulesi - Istanbul Bogazi",
             font=("Georgia",10,"italic"), fill=GOLD, anchor="center")
 
-        # Cerceve
-        cv.create_rectangle(517,52,900,538, outline=GOLD_D, width=1)
+       
 
         # Form paneli
         panel = tk.Frame(cv, bg="#0c1022", bd=0)
-        cv.create_window(708,295, window=panel, width=365, height=468)
+        cv.create_window(250,295, window=panel, width=365, height=468)
 
         # Logo
         lf = tk.Frame(panel, bg="#0c1022")
