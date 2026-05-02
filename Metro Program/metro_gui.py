@@ -158,7 +158,7 @@ class LoginEkrani(tk.Toplevel):
         tk.Label(panel, text="İSTANBUL METRO", bg=PANEL_BG,
             fg=GOLD_L, font=("Georgia", 15, "bold")).pack(pady=(10,2))
         tk.Label(panel, text="AKILLI ULAŞIM SİSTEMİ", bg=PANEL_BG,
-            fg=TEXT_M, font=("Helvetica", 8), letter_spacing=3).pack()
+                 fg=TEXT_M, font=("Helvetica", 8)).pack()
 
         # Ayraç
         sep = tk.Frame(panel, bg=GOLD_D, height=1)
