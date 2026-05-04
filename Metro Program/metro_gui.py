@@ -465,11 +465,11 @@ class LoginEkrani(tk.Toplevel):
 
         tk.Frame(frm, bg=GOLD_D, height=1).pack(fill="x", pady=8)
 
-        tk.Button(frm, text="Yeni Hesap Olustur",
-                  bg=CARD, fg=GOLD, font=("Helvetica", 10),
-                  relief="flat", cursor="hand2", pady=8,
-                  highlightthickness=1, highlightbackground=GOLD_D,
-                  activebackground="#1a2240", activeforeground=GOLD_L,
+        tk.Button(frm, text="✦  Yeni Hesap Olustur  ✦",
+                  bg="#1a3a5c", fg="#5dade2", font=("Helvetica", 10, "bold"),
+                  relief="flat", cursor="hand2", pady=9,
+                  highlightthickness=1, highlightbackground="#2e6da4",
+                  activebackground="#215a8a", activeforeground="#aee6ff",
                   command=self._kayit_ac).pack(fill="x", pady=2)
 
         tk.Label(panel, text="Demo: aasd / 1234",
@@ -566,6 +566,9 @@ class MetroApp:
     def _giris_basarili(self, kullanici):
         self.aktif_kul = kullanici
         self.root.deiconify()
+        # Önceki UI widget'larını temizle (çıkış → giriş döngüsünde çift pencere önlemi)
+        for widget in self.root.winfo_children():
+            widget.destroy()
         self._ui_olustur()
         self._profil_guncelle()
         self._harita_ciz()
@@ -722,12 +725,19 @@ class MetroApp:
         tk.Label(parent, text="SOCKET TEST KONSOLU", bg=PANEL,
                  fg=GOLD, font=("Helvetica", 9)).pack(anchor="w", padx=14, pady=(14, 6))
 
+        # Log alanı + scrollbar
         log_f = tk.Frame(parent, bg="#060910")
         log_f.pack(fill="both", expand=True, padx=12, pady=(0, 8))
+        log_sb = tk.Scrollbar(log_f, orient="vertical",
+                              bg=CARD, troughcolor="#060910", activebackground=GOLD,
+                              width=10, bd=0, highlightthickness=0)
+        log_sb.pack(side="right", fill="y")
         self.log_text = tk.Text(log_f, bg="#060910", fg="#00ff88",
                                 font=("Courier", 9), relief="flat", state="disabled",
-                                insertbackground=GREEN, wrap="word", bd=0)
+                                insertbackground=GREEN, wrap="word", bd=0,
+                                yscrollcommand=log_sb.set)
         self.log_text.pack(fill="both", expand=True, padx=6, pady=6)
+        log_sb.config(command=self.log_text.yview)
 
         sep_line(parent)
 
@@ -737,32 +747,68 @@ class MetroApp:
         cmd_f = tk.Frame(parent, bg=PANEL)
         cmd_f.pack(fill="x", padx=12, pady=(0, 6))
         self.cmd_var = tk.StringVar()
-        tk.Entry(cmd_f, textvariable=self.cmd_var, bg="#060910", fg=GREEN,
-                 insertbackground=GREEN, relief="flat", font=("Courier", 10),
-                 highlightthickness=1, highlightbackground=GOLD_D,
-                 bd=6).pack(side="left", fill="x", expand=True, padx=(0, 6))
+        cmd_entry = tk.Entry(cmd_f, textvariable=self.cmd_var, bg="#060910", fg=GREEN,
+                             insertbackground=GREEN, relief="flat", font=("Courier", 10),
+                             highlightthickness=1, highlightbackground=GOLD_D,
+                             bd=6)
+        cmd_entry.pack(side="left", fill="x", expand=True, padx=(0, 6))
+        cmd_entry.bind("<Return>", lambda e: self._manuel_komut())
         tk.Button(cmd_f, text="Gonder", bg=CARD, fg=GOLD,
                   relief="flat", cursor="hand2", font=("Helvetica", 9),
                   command=self._manuel_komut).pack(side="left")
 
-        tk.Label(parent, text="HAZIR KOMUTLAR", bg=PANEL,
-                 fg=GOLD_D, font=("Helvetica", 8)).pack(anchor="w", padx=14, pady=(8, 4))
+        sep_line(parent)
 
-        btnf = tk.Frame(parent, bg=PANEL)
-        btnf.pack(fill="x", padx=12)
+        tk.Label(parent, text="HAZIR KOMUTLAR", bg=PANEL,
+                 fg=GOLD_D, font=("Helvetica", 8)).pack(anchor="w", padx=14, pady=(4, 4))
+
+        # Scrollable buton alanı
+        btn_container = tk.Frame(parent, bg=PANEL)
+        btn_container.pack(fill="both", padx=12, pady=(0, 6))
+
+        btn_canvas = tk.Canvas(btn_container, bg=PANEL, highlightthickness=0,
+                               height=160)
+        btn_sb = tk.Scrollbar(btn_container, orient="vertical",
+                              bg=CARD, troughcolor=PANEL, activebackground=GOLD,
+                              width=10, bd=0, highlightthickness=0)
+        btn_sb.pack(side="right", fill="y")
+        btn_canvas.pack(side="left", fill="both", expand=True)
+        btn_canvas.configure(yscrollcommand=btn_sb.set)
+        btn_sb.configure(command=btn_canvas.yview)
+
+        btnf = tk.Frame(btn_canvas, bg=PANEL)
+        btn_canvas_win = btn_canvas.create_window((0, 0), window=btnf, anchor="nw")
+
+        def _on_frame_config(e):
+            btn_canvas.configure(scrollregion=btn_canvas.bbox("all"))
+
+        def _on_canvas_resize(e):
+            btn_canvas.itemconfig(btn_canvas_win, width=e.width)
+
+        btnf.bind("<Configure>", _on_frame_config)
+        btn_canvas.bind("<Configure>", _on_canvas_resize)
+
+        # Fare tekerleği desteği
+        def _on_mousewheel(e):
+            btn_canvas.yview_scroll(int(-1 * (e.delta / 120)), "units")
+
+        btn_canvas.bind_all("<MouseWheel>", _on_mousewheel)
 
         u = self.aktif_kul
         p = YEREL_KULLANICILAR.get(u, {}).get("sifre", "")
         hazir = [
             ("Bakiye Sorgula", f"{u}-{p}-BS"),
+            ("Bakiye Yukle +50", f"{u}-{p}-BY-50"),
             ("Menu Iste", f"{u}-{p}-M"),
-            ("Tren Hizi (test)", "ASD.123-HG-85.5"),
+            ("Tren Hizi Guncelle", "ASD.123-HG-85.5"),
+            ("Tren Konum Sorgula", "ASD.123-HI-Taksim"),
             ("Ping", "PING"),
         ]
         for isim, cmd in hazir:
             tk.Button(btnf, text=isim, bg=CARD, fg=TEXT_M,
                       relief="flat", cursor="hand2", font=("Helvetica", 9),
-                      pady=4, activeforeground=GOLD,
+                      pady=5, activeforeground=GOLD, activebackground="#1a2240",
+                      anchor="w", padx=8,
                       command=lambda c=cmd: self._socket_gonder_log(c)
                       ).pack(fill="x", pady=2)
 
