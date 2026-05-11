@@ -274,7 +274,7 @@ class KayitEkrani(tk.Toplevel):
         ust.pack(fill="x", pady=0)
 
         tk.Label(ust, text="YENİ HESAP OLUŞTUR", bg="#0c1022",
-                 fg=GOLD_L, font=("Georgia", 14, "bold")).pack(pady=(22, 4))
+                 fg=GOLD_L, font=("Georgia", 14, "bold")).pack(pady=(15, 0))
         tk.Label(ust, text="Istanbul Metro IstanbulKart sistemi", bg="#0c1022",
                  fg=TEXT_M, font=("Helvetica", 9)).pack(pady=(0, 14))
         tk.Frame(ust, bg=GOLD_D, height=1).pack(fill="x", padx=24)
