@@ -18,7 +18,6 @@ def getMsg():
 def readMsg(sock, msg: str):
     msgicerik = msg.strip().split("-")
 
-    # PING kontrolü - DÜZELTILDI (string karşılaştırması)
     if msg.strip() == "PING":
         sock.sendall("Ping başarılı".encode())
         return
@@ -77,7 +76,7 @@ def readMsg(sock, msg: str):
         sock.sendall("HATA: Gecersiz komut".encode())
 
 
-# ── JSON dosyaları ────────────────────────────────────
+
 userspath = "kullanicilar.json"
 try:
     with open(userspath, "r") as ufread:
@@ -103,7 +102,7 @@ try:
 except FileNotFoundError:
     idatabase = []
 
-# ── Socket ───────────────────────────────────────────
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind(('127.0.0.1', 8080))

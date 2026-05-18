@@ -48,9 +48,7 @@ def gorsel_yolu_bul():
     return None
 
 
-# ─────────────────────────────────────────────────────
-#  SOCKET CLIENT - DÜZELTILDI
-# ─────────────────────────────────────────────────────
+
 SERVER_HOST = "localhost"
 SERVER_PORT = 8080
 
@@ -92,19 +90,14 @@ def cmd_tren_konum(tren_id, durak):
     return socket_gonder(f"{tren_id}-HI-{durak}")
 
 
-# ─────────────────────────────────────────────────────
-#  YEREL KULLANICI VERITABANI
-# ─────────────────────────────────────────────────────
+
 YEREL_KULLANICILAR = {
     "aasd": {"sifre": "1234", "ad_soyad": "Ali Aslan", "email": "ali@metro.ist", "bakiye": 125.0, "kart": "4821-7390"},
     "admin": {"sifre": "admin", "ad_soyad": "Admin Kullanici", "email": "admin@metro.ist", "bakiye": 500.0,
               "kart": "0000-0001"},
 }
 
-# ─────────────────────────────────────────────────────
-#  ISTASYONLAR - BOĞAZ DÜZELTMESİ
-#  Boğaz x=348-398 arasında. Duraklar bu bölgeden kaçırıldı.
-# ─────────────────────────────────────────────────────
+
 ISTASYONLAR = [
     # M1 - Kırmızı hat (Havalimanı → Yenikapı) - sol taraf, Boğaz altında
     {"id": "m1s1", "isim": "Havalimani", "hat": "M1", "renk": "#c0392b", "x": 55, "y": 520, "lat": 40.976,
@@ -133,13 +126,12 @@ ISTASYONLAR = [
      "km": 9.0, "sefer": 3, "yog": "Yogun", "fac": ["Asansor", "Engelli Rampası", "Bufe"], "aktarma": []},
     {"id": "m2s5", "isim": "Levent", "hat": "M2", "renk": "#2471a3", "x": 290, "y": 275, "lat": 41.076, "lon": 29.010,
      "km": 11.8, "sefer": 6, "yog": "Yogun", "fac": ["Asansor", "Engelli Rampası", "AVM"], "aktarma": []},
-    # Gayrettepe: Boğazın soluna (x=332)
+
     {"id": "m2s6", "isim": "Gayrettepe", "hat": "M2", "renk": "#2471a3", "x": 332, "y": 295, "lat": 41.068,
      "lon": 29.001, "km": 14.5, "sefer": 4, "yog": "Cok Yogun", "fac": ["Asansor", "Engelli Rampası", "Bufe"], "aktarma": []},
-    # Şişli: Boğazın soluna (x=332)
+
     {"id": "m2s7", "isim": "Sisli", "hat": "M2", "renk": "#2471a3", "x": 332, "y": 318, "lat": 41.061, "lon": 28.987,
      "km": 17.1, "sefer": 5, "yog": "Yogun", "fac": ["Asansor", "Engelli Rampası", "AVM"], "aktarma": []},
-    # Taksim: Boğazın sağına (x=420) - Taksim Avrupa yakasında ama Boğaz çizgisi sağında gösterilecek
     {"id": "m2s8", "isim": "Taksim", "hat": "M2", "renk": "#2471a3", "x": 420, "y": 295, "lat": 41.037, "lon": 28.985,
      "km": 19.8, "sefer": 2, "yog": "Cok Yogun", "fac": ["Asansor", "Engelli Rampası", "Bufe", "Danisma"], "aktarma": []},
     {"id": "m2s9", "isim": "Osmanbey", "hat": "M2", "renk": "#2471a3", "x": 490, "y": 258, "lat": 41.047, "lon": 28.998,
@@ -149,7 +141,6 @@ ISTASYONLAR = [
     {"id": "m2s11", "isim": "Halic", "hat": "M2", "renk": "#2471a3", "x": 618, "y": 188, "lat": 41.032, "lon": 28.952,
      "km": 25.5, "sefer": 6, "yog": "Az", "fac": ["Asansor", "Engelli Rampası"], "aktarma": []},
 
-    # M3 - Yeşil hat (Kirazlı → Bağcılar) - tamamen sol
     {"id": "m3s1", "isim": "Kirazli", "hat": "M3", "renk": "#1e8449", "x": 130, "y": 272, "lat": 41.054, "lon": 28.800,
      "km": 0, "sefer": 8, "yog": "Az", "fac": ["Asansor", "Otopark"], "aktarma": []},
     {"id": "m3s2", "isim": "Bagcilar M.", "hat": "M3", "renk": "#1e8449", "x": 135, "y": 358, "lat": 41.044,
@@ -159,7 +150,6 @@ ISTASYONLAR = [
     {"id": "m3s4", "isim": "Bagcilar", "hat": "M3", "renk": "#1e8449", "x": 170, "y": 540, "lat": 41.009, "lon": 28.836,
      "km": 9.2, "sefer": 9, "yog": "Az", "fac": ["Asansor"], "aktarma": []},
 
-    # M4 - Turuncu hat (Kadıköy → Göztepe) - Boğazın SAĞINDA (Anadolu yakası)
     {"id": "m4s1", "isim": "Kadikoy", "hat": "M4", "renk": "#d35400", "x": 455, "y": 355, "lat": 40.990, "lon": 29.028,
      "km": 0, "sefer": 3, "yog": "Cok Yogun", "fac": ["Asansor", "Engelli Rampası", "AVM", "Bufe", "Danisma"], "aktarma": []},
     {"id": "m4s2", "isim": "Ayrilik Cesmesi", "hat": "M4", "renk": "#d35400", "x": 480, "y": 420, "lat": 41.000,
@@ -169,7 +159,6 @@ ISTASYONLAR = [
     {"id": "m4s4", "isim": "Goztepe", "hat": "M4", "renk": "#d35400", "x": 505, "y": 555, "lat": 41.014, "lon": 29.087,
      "km": 7.0, "sefer": 4, "yog": "Orta", "fac": ["Asansor", "Engelli Rampası", "Otopark"], "aktarma": []},
 
-    # M5 - Mor hat (Üsküdar → Altunizade) - Boğazın SAĞINDA (Anadolu yakası)
     {"id": "m5s1", "isim": "Uskudar", "hat": "M5", "renk": "#7d3c98", "x": 523, "y": 320, "lat": 41.023, "lon": 29.015,
      "km": 0, "sefer": 5, "yog": "Yogun", "fac": ["Asansor", "Engelli Rampası", "Bufe", "Danisma"], "aktarma": []},
     {"id": "m5s2", "isim": "Fistikagaci", "hat": "M5", "renk": "#7d3c98", "x": 558, "y": 382, "lat": 41.012,
@@ -180,7 +169,6 @@ ISTASYONLAR = [
      "lon": 29.065, "km": 7.3, "sefer": 4, "yog": "Orta", "fac": ["Asansor", "Engelli Rampası", "Otopark"], "aktarma": []},
 ]
 
-# Hat çizgi koordinatları da güncellendi
 HAT_CIZGILERI = {
     "M1": {"renk": "#c0392b", "pts": [(55, 520), (118, 520), (183, 478), (248, 438), (308, 398), (330, 375)]},
     "M2": {"renk": "#2471a3",
@@ -254,9 +242,7 @@ def _fallback_bg(genislik, yukseklik):
     return img
 
 
-# ══════════════════════════════════════════════════════
-#  KAYIT EKRANI
-# ══════════════════════════════════════════════════════
+
 class KayitEkrani(tk.Toplevel):
     def __init__(self, master, on_kayit):
         super().__init__(master)
@@ -362,7 +348,6 @@ class KayitEkrani(tk.Toplevel):
             self.hata_lbl.config(text="⚠ Gecerli bir baslangic bakiyesi girin.")
             return
 
-        # Kart numarası üret
         import random
         kart = f"{random.randint(1000, 9999)}-{random.randint(1000, 9999)}"
 
@@ -374,9 +359,7 @@ class KayitEkrani(tk.Toplevel):
             "kart": kart,
         }
 
-        # Server'a da kaydet (varsa)
         def _sunucu_kayit():
-            # Sunucu kayıt protokolü yok ama bakiye sorgu ile test edilebilir
             yanit = socket_gonder(f"{kul}-{sifre}-BS")
             print(f"[Kayit] Sunucu yaniti: {yanit}")
 
@@ -386,9 +369,7 @@ class KayitEkrani(tk.Toplevel):
         self.on_kayit(kul)
 
 
-# ══════════════════════════════════════════════════════
-#  GİRİŞ EKRANI
-# ══════════════════════════════════════════════════════
+
 class LoginEkrani(tk.Toplevel):
     def __init__(self, master, on_login):
         super().__init__(master)
@@ -544,9 +525,8 @@ class LoginEkrani(tk.Toplevel):
             pass
 
 
-# ══════════════════════════════════════════════════════
+
 #  ANA PENCERE
-# ══════════════════════════════════════════════════════
 class MetroApp:
     def __init__(self):
         self.root = tk.Tk()
@@ -762,7 +742,6 @@ class MetroApp:
         tk.Label(parent, text="HAZIR KOMUTLAR", bg=PANEL,
                  fg=GOLD_D, font=("Helvetica", 8)).pack(anchor="w", padx=14, pady=(4, 4))
 
-        # Scrollable buton alanı
         btn_container = tk.Frame(parent, bg=PANEL)
         btn_container.pack(fill="both", padx=12, pady=(0, 6))
 
@@ -788,7 +767,6 @@ class MetroApp:
         btnf.bind("<Configure>", _on_frame_config)
         btn_canvas.bind("<Configure>", _on_canvas_resize)
 
-        # Fare tekerleği desteği
         def _on_mousewheel(e):
             btn_canvas.yview_scroll(int(-1 * (e.delta / 120)), "units")
 
